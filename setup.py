@@ -8,7 +8,7 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name="limecore-messaging-rabbitmq",
-    version="0.0.1",
+    version="0.1.0",
 
     description="limecore: Messaging (RabbitMQ)",
     long_description=long_description,
