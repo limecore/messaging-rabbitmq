@@ -1,7 +1,7 @@
 all: lint dist
 
 black: force
-	black src/
+	black setup.py src/
 
 deps: force
 	pip install -r requirements.txt
@@ -11,12 +11,12 @@ dist: force
 	python setup.py sdist bdist_wheel
 
 flake8: force
-	flake8 src/
+	flake8 setup.py src/
 
 lint: black flake8
 
 mypy: force
-	mypy src/
+	mypy setup.py src/
 
 publish-test: force
 	python -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
