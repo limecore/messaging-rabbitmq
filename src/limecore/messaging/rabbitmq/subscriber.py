@@ -2,11 +2,10 @@ import amqpstorm
 
 from functools import partial
 from injector import Injector, inject
+from limecore.core.rollback_exception import RollbackException, RollbackStrategy
 from limecore.messaging.api import (
     Handler,
     Message,
-    RollbackException,
-    RollbackStrategy,
     Subscriber as _Subscriber,
     Subscription,
 )
@@ -122,7 +121,9 @@ class Subscriber(_Subscriber):
 
             self._logger.info("%s failed, Rolling back..." % handler.__name__)
 
-            if e.rollback_strategy == RollbackStrategy.RETRY_NOW:
+            if e.rollback_strategy == RollbackStrategy.NONE:
+                raise
+            elif e.rollback_strategy == RollbackStrategy.RETRY_NOW:
                 msg.nack(requeue=True)
             elif e.rollback_strategy == RollbackStrategy.RETRY_LATER:
                 msg.reject(requeue=True)
